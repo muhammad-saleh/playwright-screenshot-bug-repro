@@ -41,3 +41,23 @@ test('capture screenshot', async ({ page }) => {
     fullPage: true
   });
 });
+
+test('capture screenshot viewport', async ({ page }) => {
+  await page.goto(`https://tempo.fit`, {
+    waitUntil: "networkidle",
+  });
+
+  await scrollThroughPage(page);
+  await page.evaluate(() => document.fonts.ready);
+  await page.waitForFunction(() => document.fonts.ready);
+  await delay(10000);
+  await page.keyboard.down('Escape');
+  await page.keyboard.down('Escape');
+  await page.keyboard.down('Escape');
+  await scrollThroughPage(page);
+  await delay(10000);
+
+  await expect(page).toHaveScreenshot({
+    fullPage: false
+  });
+});
